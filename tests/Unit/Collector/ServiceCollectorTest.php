@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AppDevPanel\Kernel\Tests\Unit\Collector;
+
+use AppDevPanel\Kernel\Collector\CollectorInterface;
+use AppDevPanel\Kernel\Collector\ServiceCollector;
+use AppDevPanel\Kernel\Collector\TimelineCollector;
+use AppDevPanel\Kernel\Event\MethodCallRecord;
+use AppDevPanel\Kernel\Tests\Shared\AbstractCollectorTestCase;
+use stdClass;
+
+final class ServiceCollectorTest extends AbstractCollectorTestCase
+{
+    /**
+     * @param CollectorInterface|ServiceCollector $collector
+     */
+    protected function collectTestData(CollectorInterface $collector): void
+    {
+        $time = microtime(true);
+        $collector->collect(
+            new MethodCallRecord('test', stdClass::class, 'test', [], '', 'success', null, $time, $time + 1),
+        );
+    }
+
+    protected function getCollector(): CollectorInterface
+    {
+        return new ServiceCollector(new TimelineCollector());
+    }
+}
