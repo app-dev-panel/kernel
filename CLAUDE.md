@@ -21,7 +21,7 @@ are not Yii framework dependencies.
 
 Note: `yiisoft/proxy` was removed from Kernel. Container proxying (`ContainerInterfaceProxy`,
 `ServiceProxy`, `ServiceMethodProxy`, `ContainerProxyConfig`, `ProxyLogTrait`) and
-`VarDumperHandlerInterfaceProxy` now live in the Yii adapter (`libs/Adapter/Yiisoft`).
+`VarDumperHandlerInterfaceProxy` now live in the Yii adapter (`libs/Adapter/Yii3`).
 `LoggerDecorator` and `VarDumperHandler` remain in Kernel (`DebugServer/`) since they
 only depend on `yiisoft/var-dumper` (core infra).
 
@@ -85,29 +85,22 @@ src/
 │   ├── ElasticsearchRequestRecord.php   # Immutable DTO for logRequest() pattern
 │   ├── MessageRecord.php               # Value object for mailer message
 │   ├── MailerCollector.php              # Email messages (fed by adapter hooks)
-│   ├── AuthorizationCollector.php            # Auth: user, token, guards, role hierarchy, access decisions, auth events
-│   ├── ValidatorCollector.php           # Validation results (fed by adapter hooks)
-│   ├── QueueCollector.php               # Queue messages: dispatched/handled/failed (fed by adapter hooks)
-│   ├── RouterCollector.php              # Route matching data (fed by adapter hooks)
-│   ├── OpenTelemetryCollector.php       # OpenTelemetry spans (fed by OTLP ingestion)
-│   ├── DeprecationCollector.php         # PHP deprecation notices
 │   ├── AssetBundleCollector.php         # Asset bundles (fed by adapter hooks)
-│   ├── DeprecationCollector.php         # PHP deprecation warnings
-│   ├── EnvironmentCollector.php
+│   ├── AuthorizationCollector.php       # Auth: user, token, guards, role hierarchy, access decisions, auth events
+│   ├── DeprecationCollector.php         # PHP deprecation notices
+│   ├── EnvironmentCollector.php         # PHP environment info (extensions, ini settings)
 │   ├── MiddlewareCollector.php          # HTTP middleware stack execution
-│   ├── OpenTelemetryCollector.php       # OpenTelemetry spans
+│   ├── OpenTelemetryCollector.php       # OpenTelemetry spans (fed by OTLP ingestion)
 │   ├── OtlpTraceParser.php             # OTLP trace data parser
 │   ├── SpanRecord.php                  # Value object for OTel span
-│   ├── QueueCollector.php              # Message queue/bus operations
+│   ├── QueueCollector.php               # Queue messages: dispatched/handled/failed (fed by adapter hooks)
 │   ├── RedisCollector.php              # Redis commands (fed by adapter hooks)
 │   ├── RedisCommandRecord.php          # Value object for Redis command
-│   ├── RouterCollector.php             # HTTP route matching data
-│   ├── AuthorizationCollector.php           # Authentication/authorization
-│   ├── TemplateCollector.php           # Template rendering
+│   ├── RouterCollector.php              # Route matching data (fed by adapter hooks)
+│   ├── TemplateCollector.php           # Template/view rendering with timing, output, params, duplicate detection
 │   ├── TranslatorCollector.php         # Translation lookups + missing detection
 │   ├── TranslationRecord.php           # Value object for translation lookup
-│   ├── ValidatorCollector.php          # Validation operations
-│   ├── ViewCollector.php               # View rendering with output
+│   ├── ValidatorCollector.php           # Validation results (fed by adapter hooks)
 │   ├── Web/
 │   │   ├── RequestCollector.php
 │   │   └── WebAppInfoCollector.php
@@ -128,6 +121,7 @@ src/
 │   ├── StorageInterface.php
 │   ├── FileStorage.php
 │   ├── FileStorageGarbageCollector.php  # Automatic cleanup of old entries
+│   ├── GarbageCollector.php             # GC interface
 │   └── MemoryStorage.php
 ├── Event/                        # Debugger lifecycle events
 │   ├── ProxyMethodCallEvent.php
@@ -177,7 +171,7 @@ The application code is completely unaware of the interception.
 - `HttpStreamProxy` — wraps `http://` and `https://` stream wrappers, feeds `HttpStreamCollector`
 - `StreamProxyTrait` — shared delegation logic for both stream wrappers
 
-**Proxies moved to Yii adapter** (`libs/Adapter/Yiisoft/src/Proxy/`):
+**Proxies moved to Yii adapter** (`libs/Adapter/Yii3/src/Proxy/`):
 - `ContainerInterfaceProxy` (PSR-11), `ContainerProxyConfig`, `ProxyLogTrait`
 - `ServiceProxy`, `ServiceMethodProxy` (generic service interception)
 - `VarDumperHandlerInterfaceProxy`

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace AppDevPanel\Kernel\Tests\Unit\Collector;
 
-use AppDevPanel\Kernel\Collector\CollectorInterface;
 use AppDevPanel\Kernel\Collector\AuthorizationCollector;
+use AppDevPanel\Kernel\Collector\CollectorInterface;
 use AppDevPanel\Kernel\Tests\Shared\AbstractCollectorTestCase;
 
 final class AuthorizationCollectorTest extends AbstractCollectorTestCase
@@ -152,9 +152,9 @@ final class AuthorizationCollectorTest extends AbstractCollectorTestCase
 
         $summary = $collector->getSummary();
 
-        $this->assertSame(4, $summary['security']['accessDecisions']['total']);
-        $this->assertSame(2, $summary['security']['accessDecisions']['granted']);
-        $this->assertSame(2, $summary['security']['accessDecisions']['denied']);
+        $this->assertSame(4, $summary['authorization']['accessDecisions']['total']);
+        $this->assertSame(2, $summary['authorization']['accessDecisions']['granted']);
+        $this->assertSame(2, $summary['authorization']['accessDecisions']['denied']);
     }
 
     public function testTokenWithoutExpiry(): void
